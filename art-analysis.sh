@@ -1,5 +1,5 @@
 #!/bin/bash
-curl -s 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all' | grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' \
+curl -s 'https://artificialanalysis.ai/leaderboards/models' | grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' \
     | grep coding_inde \
     | sed 's/^".../"/g' | head -1 \
     | jq -r 'fromjson | .[3].children[0][3].models.[] | "\(.coding_index) \(.size_class) \(.name)"' \
