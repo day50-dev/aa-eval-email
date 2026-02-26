@@ -5,10 +5,10 @@ curl -s 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_
     | jq -r 'fromjson | .[3].children[0][3].models.[] | "\(.coding_index) \(.size_class) \(.name)"' \
     | sort -n > current
 
-diff current old > change
+comm -3 current old > change
 if [[ -s change ]] ; then
   echo "Sending email"
-comm -3 current old | cut -d ' ' -f 3- | tr '\n' ' ' > subj
+comm -3 current old | cut -d ' ' -f 3- | tr '\n' '/' | sed 's|\/$||g' > subj
 {
 cat << ENDL
 MIME-Version: 1.0
@@ -24,7 +24,7 @@ $(cat change)
 --who-cares/nomatter--
 
 ENDL
-} 
+} | /usr/bin/msmtp aa-new-model@googlegroups.com
 else
   echo "No email"
 fi
