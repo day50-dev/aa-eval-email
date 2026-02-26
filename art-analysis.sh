@@ -6,6 +6,7 @@ curl -s 'https://artificialanalysis.ai/leaderboards/models' \
     | jq -r 'fromjson | .[3].children[0][3].models.[] | "\(.coding_index) \(.size_class) \(.name)"' \
     | sort -n > current
 
+date > last_run
 comm -3 current old > change
 if [[ -s change ]] ; then
 cat change | cut -d ' ' -f 3- | tr '\n' '/' | sed 's|\/$||g' > subj
