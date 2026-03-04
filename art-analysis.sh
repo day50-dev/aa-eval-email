@@ -4,12 +4,17 @@ curl -s 'https://artificialanalysis.ai/leaderboards/models' \
     | grep coding_inde \
     | sed 's/^".../"/g' | head -1 \
     | jq -r 'fromjson | .[3].children[0][3].models.[] | "\(.coding_index) \(.size_class) \(.name)"' \
-    | sort -n > current
+    | sort -n > holding 
+
+# Make sure we got something
+[[ ! -s holding ]] && exit
+
+cp holding current
 
 date > last_run
-comm -3 current old > change
+diff -C 2 old current | grep -E '^[ \-\+] ' > change
 if [[ -s change ]] ; then
-cat change | cut -d ' ' -f 3- | tr '\n' '/' | sed 's|\/$||g' > subj
+cat change | grep -E '^\+' | cut -d ' ' -f 3- | tr '\n' '/' | sed 's|\/$||g' > subj
 {
 cat << ENDL
 MIME-Version: 1.0
