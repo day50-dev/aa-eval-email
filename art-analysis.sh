@@ -26,7 +26,9 @@ Subject: $(cat subj)
 This is a MIME-encapsulated message
 --who-cares/nomatter
 Content-Type: text/plain
+
 $(cat change)
+
 --who-cares/nomatter--
 
 ENDL
