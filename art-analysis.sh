@@ -14,7 +14,7 @@ cp holding current
 date > last_run
 diff -C 2 old current | grep -E '^[ \-\+] ' > change
 if [[ -s change ]] ; then
-cat change | grep -E '^\+' | cut -d ' ' -f 3- | tr '\n' '/' | sed 's|\/$||g' > subj
+cat change | grep -E '^\+' | cut -d ' ' -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
 {
 cat << ENDL
 MIME-Version: 1.0
