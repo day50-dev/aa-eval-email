@@ -1,9 +1,9 @@
 #!/bin/bash
 curl -s 'https://artificialanalysis.ai/leaderboards/models' \
     | grep -Po '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' \
-    | grep coding_inde \
+    | grep codingInde \
     | sed 's/^".../"/g' | head -1 \
-    | jq -r 'fromjson | .[3].children[0][3].models.[] | "\(.coding_index) \(.size_class) \(.name)"' \
+    | jq -r 'fromjson | .[3].models.[] | "\(.codingIndex) \(.sizeClass) \(.name)"' \
     | sort -n > holding 
 
 # Make sure we got something
