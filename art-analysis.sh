@@ -1,6 +1,6 @@
 #!/bin/bash
 web() {
-    curl 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all'
+    curl -s 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all'
 }
 filter() {
     grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' \
@@ -12,7 +12,7 @@ parse() {
         "\(10 * (.codingIndex // 0) | round / 10 ) \( (now - (.releaseDate | strptime("%Y-%m-%d") | mktime ) )/86400 | floor) \(.sizeClass // "-") \(.name)"'  | sort -n | sed 's/ /\t/;s/ /\t/;s/ /\t/' 
 }
 send() {
-    [[ -n "$DEBUG" ]] && cat || /usr/bin/msmtp aa-new-model@googlegroups.com
+    [[ -n "$DEBUG" ]] && cat #|| /usr/bin/msmtp aa-new-model@googlegroups.com
 }
 
 web | filter | parse > holding
@@ -49,6 +49,8 @@ This is a MIME-encapsulated message
 --who-cares/nomatter
 Content-Type: text/plain
 
+  Score Age     Size    Name
+  ----- ------- ------- --------------------------------------
 $(cat change)
 
 --who-cares/nomatter--
