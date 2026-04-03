@@ -36,7 +36,7 @@ lcdiff=$(wc -l old current | awk ' { print $1 } ' | uniq | wc -l)
 date > last_run
 diff -C 2 old current | grep -E '^[ \-\+] ' > change
 if [[ -s change ]] ; then
-cat change | grep -E '^\+' | cut -d ' ' -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
+cat change | grep -E '^\+' | cut -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
 {
 cat << ENDL
 MIME-Version: 1.0
@@ -47,10 +47,10 @@ Subject: $(cat subj)
 
 This is a MIME-encapsulated message
 --who-cares/nomatter
-Content-Type: text/plain
+Content-Type: text/html
 
 <pre style=font-family:monospace;line-height:1em;white-space:pre>
-  Score Age     Size    Name
+  Score Days    Size    Name
   ----- ------- ------- --------------------------------------
 $(cat change)
 </pre>
