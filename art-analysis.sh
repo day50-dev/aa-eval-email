@@ -49,9 +49,11 @@ This is a MIME-encapsulated message
 --who-cares/nomatter
 Content-Type: text/plain
 
+<pre style=font-family:monospace;line-height:1em;white-space:pre>
   Score Age     Size    Name
   ----- ------- ------- --------------------------------------
 $(cat change)
+</pre>
 
 --who-cares/nomatter--
 
