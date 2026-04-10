@@ -25,7 +25,7 @@ send() {
     cat
 }
 
-web | filter | parse #> holding
+web | filter | parse > holding
 
 # Make sure we got something
 [[ ! -s holding ]] && exit
