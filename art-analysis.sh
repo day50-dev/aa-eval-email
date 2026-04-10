@@ -8,11 +8,12 @@ filter() {
 }
 parse() {
     jq -r '
-    .[3].models.[] | 
+    .[3].children[1][3].models.[] | 
         "\(10 * (.codingIndex // 0) | round / 10 ) \( (now - (.releaseDate | strptime("%Y-%m-%d") | mktime ) )/86400 | floor) \(.sizeClass // "-") \(.name)"'  | sort -n | sed 's/ /\t/;s/ /\t/;s/ /\t/' 
 }
 send() {
-    [[ -n "$DEBUG" ]] && cat || /usr/bin/msmtp aa-new-model@googlegroups.com
+    ##[[ -n "$DEBUG" ]] && cat || /usr/bin/msmtp aa-new-model@googlegroups.com
+    cat
 }
 
 web | filter | parse > holding
