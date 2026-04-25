@@ -7,7 +7,7 @@ filter() {
     | grep oding | sed 's/^".../"/g' | head -1 | jq -r 'fromjson'
 }
 parse() {
-    jq -r '.[3].children[1][3].models.[] | 
+    jq -r '.[3].children[0][3].models.[] | 
      "\(
         10 * (.codingIndex // 0) | round / 10 
     ) \( 
