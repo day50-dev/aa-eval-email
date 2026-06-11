@@ -3,8 +3,7 @@ web() {
     curl 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all'
 }
 filter() {
-    grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' \
-    | grep oding | sed 's/^".../"/g' | head -1 | jq -r 'fromjson'
+    grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' | grep oding | sed 's/^..../"/g' | tail -1 | jq -r 'fromjson'
 }
 parse() {
     jq -r '.[3].children[0][3].models.[] |
@@ -21,8 +20,8 @@ parse() {
     ) \(.name)"' | sort -n | sed 's/ /\t/;s/ /\t/;s/ /\t/'
 }
 
-[[ -n "$(find "/tmp/art-web" -mmin +1440 >& /dev/null)" ]] || \
-  web		> /tmp/art-web 
+#[[ -n "$(find "/tmp/art-web" -mmin +1440 >& /dev/null)" ]] || \
+#  web		> /tmp/art-web 
 
 filter 	< /tmp/art-web 	> /tmp/art-filter 
 parse 	< /tmp/art-filter 
