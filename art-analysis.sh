@@ -20,8 +20,8 @@ parse() {
     ) \(.name)"' | sort -n | sed 's/ /\t/;s/ /\t/;s/ /\t/'
 }
 
-#[[ -n "$(find "/tmp/art-web" -mmin +1440 >& /dev/null)" ]] || \
-#  web		> /tmp/art-web 
+[[ -n "$(find "/tmp/art-web" -mmin +1440 >& /dev/null)" ]] || \
+  web		> /tmp/art-web 
 
 filter 	< /tmp/art-web 	> /tmp/art-filter 
 parse 	< /tmp/art-filter 
