@@ -1,6 +1,6 @@
 Sends out an email whenever Artificial Analysis posts a new model to their evals page
 
-Join [the group](https://groups.google.com/g/aa-new-model) then check out other [**DAY50**](https://day50.dev) stuff.
+Join [the group](https://groups.google.com/g/aa-new-model) then check out other [**DAY50**](https://github.com/day50-dev) stuff.
 
 Also, the script **art-analysis.sh** is a stand-alone.
 
