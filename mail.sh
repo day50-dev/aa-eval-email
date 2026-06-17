@@ -7,7 +7,6 @@
 
 send() {
     [[ -n "$DEBUG" ]] && cat || /usr/bin/msmtp aa-new-model@googlegroups.com
-    cat
 }
 
 cp holding current
