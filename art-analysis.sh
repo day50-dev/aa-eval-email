@@ -23,7 +23,7 @@ parse() {
 }
 
 arg=$1
-touch -d "24 hours ago" /tmp/marker
+touch -d "2 hours ago" /tmp/marker
 [[ "/tmp/art-web" -nt /tmp/marker ]] || web > /tmp/art-web 
 
 filter 	< /tmp/art-web 	> /tmp/art-filter 
