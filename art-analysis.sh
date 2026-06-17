@@ -21,7 +21,7 @@ parse() {
 }
 
 [[ -n "$(find "/tmp/art-web" -mmin +1440 >& /dev/null)" ]] || \
-  web		> /tmp/art-web 
+  web   > /tmp/art-web 
 
 filter 	< /tmp/art-web 	> /tmp/art-filter 
 parse 	< /tmp/art-filter 
