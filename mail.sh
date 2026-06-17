@@ -1,0 +1,54 @@
+#!/bin/bash
+
+./art-analysis.sh > holding
+
+# Make sure we got something
+[[ ! -s holding ]] && exit
+
+send() {
+    [[ -n "$DEBUG" ]] && cat || /usr/bin/msmtp aa-new-model@googlegroups.com
+    cat
+}
+
+cp holding current
+lcdiff=$(wc -l old current | awk ' { print $1 } ' | uniq | wc -l)
+
+# If there's 2 lines here then we had 
+# identical numbers of line per file
+[[ $lcdiff == 2 ]] && exit
+
+# This craziness is done because diffs are
+# actually normal ... we are displaying
+# days since release which naturally increment
+# daily. 
+# So we need to look for line number increase instead
+
+date > last_run
+diff -C 2 old current | grep -E '^[ \-\+] ' > change
+if [[ -s change ]] ; then
+cat change | grep -E '^\+' | cut -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
+{
+cat << ENDL
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="who-cares/nomatter"
+From: New Model! <chris@9ol.es>
+Subject: $(cat subj)
+
+This is a MIME-encapsulated message
+--who-cares/nomatter
+Content-Type: text/html
+
+<pre style=font-family:monospace;line-height:1em;white-space:pre>
+  Score Days    Size    Name
+  ----- ------- ------- --------------------------------------
+$(cat change)
+</pre>
+
+--who-cares/nomatter--
+
+ENDL
+} | send
+fi
+cp current old
+
