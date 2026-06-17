@@ -46,7 +46,7 @@ Score Days    Size   Name
 46.4  120     -      Claude Sonnet 4.6 (Non-reasoning, High Effort)
 46.5  16      -      Qwen3.7 Plus
 46.5  211     -      Gemini 3 Pro Preview (high)
-46.7  449     -      Gemini 2.5 Pro Preview (Mar' 25)
+46.7  449     -      Gemini 2.5 Pro Preview (Mar 25)
 47.1  29      -      Gemini 3.5 Flash (minimal)
 47.1  58      large  Kimi K2.6
 47.5  54      large  DeepSeek V4 Pro (Reasoning, Max Effort)
