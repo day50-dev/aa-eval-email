@@ -17,9 +17,12 @@ parse() {
           catch (now + 86400)
       ) ) / 86400 | floor
     ) \(.sizeClass // "-"
-    ) \(.name)"' | sort -n | sed 's/ /\t/;s/ /\t/;s/ /\t/'
+    ) \(.name)"' | {
+      [[ -z "$arg" ]] && sort -n || sort -rn
+    } | sed 's/ /\t/;s/ /\t/;s/ /\t/'
 }
 
+arg=$1
 touch -d "24 hours ago" /tmp/marke
 [[ "/tmp/art-web" -nt /tmp/marker ]] || web  > /tmp/art-web 
 
