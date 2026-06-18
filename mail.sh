@@ -5,10 +5,6 @@
 # Make sure we got something
 [[ ! -s holding ]] && exit
 
-send() {
-    [[ -n "$DEBUG" ]] && cat || /usr/bin/msmtp aa-new-model@googlegroups.com
-}
-
 cp holding current
 lcdiff=$(wc -l old current | awk ' { print $1 } ' | uniq | wc -l)
 
@@ -17,15 +13,17 @@ lcdiff=$(wc -l old current | awk ' { print $1 } ' | uniq | wc -l)
 [[ $lcdiff == 2 ]] && exit
 
 # This craziness is done because diffs are
-# actually normal ... we are displaying
-# days since release which naturally increment
-# daily. 
-# So we need to look for line number increase instead
+# actually normal... we are displaying days 
+# since release which naturally increment daily. 
+# so we need to look for line number increase instead
 
 date > last_run
+
+# This method gives context to the new models that's why we do it like this.
 diff -C 2 old current | grep -E '^[ \-\+] ' > change
+
 if [[ -s change ]] ; then
-cat change | grep -E '^\+' | cut -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
+awk '$2 < 1' holding | cut -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
 {
 cat << ENDL
 MIME-Version: 1.0
@@ -47,7 +45,10 @@ $(cat change)
 --who-cares/nomatter--
 
 ENDL
-} | send
+} | {
+  [[ -n "$DEBUG" ]] && cat || /usr/bin/msmtp aa-new-model@googlegroups.com
+}
+
 fi
 cp current old
 
