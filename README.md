@@ -4,6 +4,8 @@ Join [the group](https://groups.google.com/g/aa-new-model) then check out other 
 
 Also, the script **art-analysis.sh** is a stand-alone.
 
+Should be on as of 2026-06-17...
+
 Example output (truncated):
 
 ```shell
