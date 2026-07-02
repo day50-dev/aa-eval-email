@@ -23,7 +23,8 @@ date > last_run
 diff -C 2 old current | grep -E '^[ \-\+] ' > change
 
 if [[ -s change ]] ; then
-awk '$2 < 1' holding | cut -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
+awk '$2 < 1 && $2 >= 0' holding | cut -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
+[[ -s subj ]] || exit
 {
 cat << ENDL
 MIME-Version: 1.0
