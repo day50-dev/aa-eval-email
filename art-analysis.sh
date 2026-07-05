@@ -1,4 +1,5 @@
 #!/bin/bash
+. .env
 web() {
     curl 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all'
 }
