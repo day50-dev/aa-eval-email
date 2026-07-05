@@ -1,19 +1,20 @@
 #!/bin/bash
 . .env
 web() {
-    curl 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all'
+    curl -X GET https://artificialanalysis.ai/api/v2/data/llms/models \
+          -H "x-api-key: $KEY"
 }
 filter() {
     grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' | grep oding | sed 's/^..../"/g' | tail -1 | jq -r 'fromjson'
 }
 parse() {
-    jq -r '.[3].children[0][3].models.[] |
+    jq -r '.data.[] |
      "\(
-        10 * (.codingIndex // 0) | round / 10
+        10 * (.evaluations.artificial_analysis_coding_index // 0) | round / 10
     ) \(
       (
         now - (
-        .releaseDate |
+        .release_date |
           try ( strptime("%Y-%m-%d") | mktime )
           catch (now + 86400)
       ) ) / 86400 | floor
@@ -27,5 +28,5 @@ arg=$1
 touch -d "2 hours ago" "/tmp/art-marker"
 [[ -s "/tmp/art-web" && "/tmp/art-web" -nt "/tmp/art-marker" ]] || web > "/tmp/art-web"
 
-filter 	< /tmp/art-web 	> /tmp/art-filter 
-parse 	< /tmp/art-filter 
+#filter 	< /tmp/art-web 	> /tmp/art-filter 
+parse 	< /tmp/art-web
