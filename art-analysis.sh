@@ -1,7 +1,7 @@
 #!/bin/bash
-. .env
+#. .env
 web() {
-    curl 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all'
+    curl -s 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all'
 }
 filter() {
     grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' | grep oding | sed 's/^..../"/g' | tail -1 | jq -r 'fromjson'
