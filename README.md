@@ -1,5 +1,7 @@
 Sends out an email whenever Artificial Analysis posts a new model to their evals page
 
+[`art-analysis.sh`](art-analysis.sh) is the raw shell tool that you're looking for.
+
 Join [the group](https://groups.google.com/g/aa-new-model) then check out other [**DAY50**](https://github.com/day50-dev) stuff.
 
 Also, the script **art-analysis.sh** is a stand-alone.
