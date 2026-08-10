@@ -18,6 +18,7 @@ parse() {
           catch (now + 86400)
       ) ) / 86400 | floor
     ) \(.sizeClass // "-"
+    ) \({"true":"open ", "false":"     "}[(.isOpenWeights | tostring)]
     ) \(.name)"' | {
       [[ -z "$arg" ]] && sort -n || sort -rn
     } | sed 's/ /\t/;s/ /\t/;s/ /\t/'
