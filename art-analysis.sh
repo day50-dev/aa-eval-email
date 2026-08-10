@@ -1,5 +1,5 @@
 #!/bin/bash
-. .env
+[[ -r .env ]] && source .env
 web() {
     curl -X GET https://artificialanalysis.ai/api/v2/data/llms/models \
           -H "x-api-key: $KEY"
