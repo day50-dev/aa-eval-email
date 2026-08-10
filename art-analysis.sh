@@ -17,7 +17,7 @@ parse() {
           try ( strptime("%Y-%m-%d") | mktime )
           catch (now + 86400)
       ) ) / 86400 | floor
-    ) \(.sizeClass // "-"
+    ) \(.totalParameters // .sizeClass // ""
     ) \({"true":"open ", "false":"     "}[(.isOpenWeights | tostring)]
     ) \(.name)"' | {
       [[ -z "$arg" ]] && sort -n || sort -rn
