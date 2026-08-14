@@ -4,7 +4,8 @@ web() {
     curl -s 'https://artificialanalysis.ai/leaderboards/models?is_open_weights=open_source&size_class=all'
 }
 filter() {
-    grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' | grep oding | sed 's/^..../"/g' | tail -1 | jq -r 'fromjson'
+    perl -pe 's/<script>/\n/g' /tmp/art-web | grep totalPa | sed -E 's/^...................{8}/"/g'   | sed 's^....)</script>^"^g' | jq -r 'fromjson'
+    #grep -Po  '(?<=self.__next_f.push\(\[1,).*?(?=\]\))' | grep oding | sed 's/^..../"/g' | tail -1 | jq -r 'fromjson'
 }
 parse() {
     jq -r '.[3].children[0][3].models.[] |
