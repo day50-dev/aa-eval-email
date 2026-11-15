@@ -6,64 +6,48 @@ Join [the group](https://groups.google.com/g/aa-new-model) then check out other 
 
 Also, the script **art-analysis.sh** is a stand-alone.
 
-Should be on as of 2026-06-17...
+## How it works (since 2026-11)
 
-Example output (truncated):
+Artificial Analysis retired the Coding Index in favor of the **Intelligence
+Index** and locked a lot of the data behind their paid API, so the script
+combines two free sources:
+
+- **official free Data API** — model list, release dates
+  (``GET https://artificialanalysis.ai/api/v2/language/models/free``,
+  100 requests / 24 h, responses cached for 2 hours)
+- **public leaderboard page** — the CritPt coding score, size class and
+  open-weights flag, none of which the free API returns (the old Coding
+  Index is gone; exact parameter counts are Pro-API-only). This part is
+  best-effort: if the page changes, Score shows `0`, Size shows `-`, but
+  the model list, dates and names keep working
+
+- output columns (tab separated): `Score`, `Days`, `Size`, `Name`
+  - `Score` = AA CritPt coding benchmark × 100 (`0` when not scored yet)
+  - `Days` = days since release (`-1` when the API has no release date)
+  - `Size` = tiny / small / medium / large (`-` when unknown)
+  - `Name` is prefixed `open  ` when the model has open weights
+- `art-analysis.sh` prints scores ascending; `art-analysis.sh anything` prints descending
+
+## Setup
+
+1. Sign in at [artificialanalysis.ai](https://artificialanalysis.ai) and create a
+   free API key (API key management).
+2. Put it in `.env` next to the script (already gitignored):
+
+```sh
+AA_API_KEY=...
+```
+
+Attribution to artificialanalysis.ai is required by their free-API terms, so
+`mail.sh` signs the email with the source.
+
+Example output (live data, truncated):
 
 ```shell
-...
-Score Days    Size   Name
------ ------- ------ --------------------------------------
-38.9  314     -      GPT-5 (medium)
-39    126     large  GLM-5 (Non-reasoning)
-39.4  211     -      Gemini 3 Pro Preview (low)
-39.6  141     large  Kimi K2.5 (Reasoning)
-39.8  54      large  DeepSeek V4 Flash (Reasoning, High Effort)
-40.5  342     -      Grok 4
-40.5  71      -      Grok 4.20 0309 v2 (Reasoning)
-41    104     -      GPT-5.4 (Non-reasoning)
-41    48      -      Grok 4.3 (high)
-41.3  121     large  Qwen3.5 397B A17B (Reasoning)
-41.4  91      -      MiMo-V2-Pro
-41.9  91      large  MiniMax-M2.7
-42.1  56      large  MiMo-V2.5
-42.2  99      -      Grok 4.20 0309 (Reasoning)
-42.6  182     -      Gemini 3 Flash Preview (Reasoning)
-42.9  205     -      Claude Opus 4.5 (Non-reasoning)
-42.9  76      -      Qwen3.6 Plus
-43    120     -      Claude Sonnet 4.6 (Non-reasoning, Low Effort)
-43    188     -      GPT-5.2 Codex (xhigh)
-43.2  54      large  DeepSeek V4 Pro (Reasoning, High Effort)
-43.4  16      large  MiniMax-M3
-43.4  71      large  GLM-5.1 (Reasoning)
-43.9  29      -      Gemini 3.5 Flash (medium)
-43.9  92      -      GPT-5.4 nano (xhigh)
-44.2  126     large  GLM-5 (Reasoning)
-44.2  188     -      GPT-5.2 (medium)
-44.7  216     -      GPT-5.1 (high)
-44.9  58      -      Qwen3.6 Max Preview
-45    29      -      Gemini 3.5 Flash (high)
-45.1  43      -      GPT-5.5 Instant (May 2026)
-45.5  56      large  MiMo-V2.5-Pro
-45.6  104     -      GPT-5.4 (low)
-45.6  5       large  Kimi K2.7 Code
-46.4  120     -      Claude Sonnet 4.6 (Non-reasoning, High Effort)
-46.5  16      -      Qwen3.7 Plus
-46.5  211     -      Gemini 3 Pro Preview (high)
-46.7  449     -      Gemini 2.5 Pro Preview (Mar 25)
-47.1  29      -      Gemini 3.5 Flash (minimal)
-47.1  58      large  Kimi K2.6
-47.5  54      large  DeepSeek V4 Pro (Reasoning, Max Effort)
-47.5  70      -      Muse Spark
-47.6  132     -      Claude Opus 4.6 (Non-reasoning, High Effort)
-47.8  205     -      Claude Opus 4.5 (Reasoning)
-48.1  132     -      Claude Opus 4.6 (Adaptive Reasoning, Max Effort)
-48.6  55      -      GPT-5.5 (Non-reasoning)
-48.7  188     -      GPT-5.2 (xhigh)
-50.1  29      -      Qwen3.7 Max
-50.7  1       large  GLM-5.2 (max)
-50.9  120     -      Claude Sonnet 4.6 (Adaptive Reasoning, Max Effort)
-51.5  92      -      GPT-5.4 mini (xhigh)
-52.1  55      -      GPT-5.5 (low)
-...
+Score Days    Size    Name
+----- ------- ------- --------------------------------------
+0     101     small   open  Ling 3.0 Tiny
+0     103     tiny    open  LFM2.5-2.6B
+31.7  73      -       GPT-6 Astra (Max)
+35.7  6       -       Claude Fable 5.2 (Xhigh, Default Fallback)
 ```

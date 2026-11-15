@@ -20,7 +20,7 @@ lcdiff=$(wc -l old current | awk ' { print $1 } ' | uniq | wc -l)
 date > last_run
 
 # This method gives context to the new models that's why we do it like this.
-diff -C 2 old current | grep -E '^[ \-\+] ' > change
+diff -C 2 old current | grep -E '^[ !<>+-] ' | sed 's/^..//' > change
 
 if [[ -s change ]] ; then
 awk '$2 < 1 && $2 >= 0' holding | cut -f 4- | tr '\n' '/' | sed 's|\/$||g' > subj
@@ -42,6 +42,8 @@ Content-Type: text/html
   ----- ------- ------- --------------------------------------
 $(cat change)
 </pre>
+
+<p style=font-size:x-small>Score = AA CritPt coding benchmark · Data from <a href="https://artificialanalysis.ai">artificialanalysis.ai</a></p>
 
 --who-cares/nomatter--
 
